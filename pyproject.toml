@@ -1,0 +1,16 @@
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "py-avdu"
+version = "0.0.0"
+license = "AGPL-3.0-or-later"
+description = "A Python port of Avdu, A utility to view one-time passwords generated from Aegis Authenticator backups. "
+authors = [{name='Sammy-T', email='cyam9019@gmail.com'}, {name = 'Claude 3.7 Sonnet', email = 'claude.3.7@anthropic.com'}]
+maintainers = [{name = "James Parrott", email = "james@jamesparrott.dev"}]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["cryptography"]
+
