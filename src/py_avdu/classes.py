@@ -1,18 +1,42 @@
-import sys
-import pathlib
 import base64
 import json
-import pprint
 from binascii import hexlify, unhexlify
+from typing import List, Any
+from pydantic import BaseModel
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 from cryptography.hazmat.backends import default_backend
 
-class VaultEncrypted:
-    def __init__(self, version=None, header=None, db=None):
-        self.Version = version
-        self.Header = header
-        self.Db = db
+
+class KeyParams(BaseModel):
+    nonce: str
+    tag: str
+
+
+class Params(BaseModel):
+    nonce: str
+    tag: str
+
+
+class Slot(BaseModel):
+    type: int
+    salt: str
+    n: int
+    r: int
+    p: int
+    key_params: KeyParams
+    key: str
+
+
+class Header(BaseModel):
+    slots: List[Slot]
+    params: Params
+
+
+class VaultEncrypted(BaseModel):
+    version: int
+    header: Header
+    db: str
     
     def find_master_key(self, pwd):
         """
@@ -21,27 +45,27 @@ class VaultEncrypted:
         key = None
         master_key = None
         
-        for slot in self.Header.Slots:
+        for slot in self.header.slots:
             # Ignore slots that aren't using the password type
-            if slot.Type != 1:
+            if slot.type != 1:
                 continue
                 
-            salt = unhexlify(slot.Salt)
+            salt = unhexlify(slot.salt)
             
             # Create a key using the slot values and provided password
             kdf = Scrypt(
                 salt=salt,
                 length=32,
-                n=slot.N,
-                r=slot.R,
-                p=slot.P,
+                n=slot.n,
+                r=slot.r,
+                p=slot.p,
                 backend=default_backend()
             )
             key = kdf.derive(pwd.encode())
             
-            nonce = unhexlify(slot.KeyParams.Nonce)
-            tag = unhexlify(slot.KeyParams.Tag)
-            slot_key = unhexlify(slot.Key)
+            nonce = unhexlify(slot.key_params.nonce)
+            tag = unhexlify(slot.key_params.tag)
+            slot_key = unhexlify(slot.key)
             
             # Combine slot key and tag for decryption
             key_data = slot_key + tag
@@ -65,11 +89,11 @@ class VaultEncrypted:
         """
         Uses the master key to decrypt the vault's contents and returns the content's bytes.
         """
-        db_str = self.Db
-        params = self.Header.Params
+        db_str = self.db
+        params = self.header.params
         
-        nonce = unhexlify(params.Nonce)
-        tag = unhexlify(params.Tag)
+        nonce = unhexlify(params.nonce)
+        tag = unhexlify(params.tag)
         db_data = base64.b64decode(db_str)
         
         # Combine database data and tag for decryption
@@ -90,50 +114,19 @@ class VaultEncrypted:
         content = self.decrypt_contents(master_key)
         
         # Parse the JSON content
-        db = json.loads(content.decode('utf-8'))
+        db_content = json.loads(content.decode('utf-8'))
         
         # Create a plaintext vault with decrypted content
         vault_data_plain = Vault(
-            version=self.Version,
-            header=self.Header,
-            db=db
+            version=self.version,
+            header=self.header,
+            db=db_content
         )
         
         return vault_data_plain
 
 
-class Vault:
-    def __init__(self, version=None, header=None, db=None):
-        self.Version = version
-        self.Header = header
-        self.Db = db
-
-
-# These classes would need to be defined to match the Go struct definitions
-class Header:
-    def __init__(self, slots=None, params=None):
-        self.Slots = slots or []
-        self.Params = params
-
-
-class Slot:
-    def __init__(self, type=0, uuid="", salt="", n=0, r=0, p=0, key_params=None, key="", repaired = False, is_backup = False):
-        self.Type = type
-        self.Salt = salt
-        self.N = n
-        self.R = r
-        self.P = p
-        self.KeyParams = key_params
-        self.Key = key
-
-
-class Params:
-    def __init__(self, nonce="", tag=""):
-        self.Nonce = nonce
-        self.Tag = tag
-
-
-class KeyParams:
-    def __init__(self, nonce="", tag=""):
-        self.Nonce = nonce
-        self.Tag = tag
+class Vault(BaseModel):
+    version: int
+    header: Header
+    db: Any  # This will be the parsed JSON content

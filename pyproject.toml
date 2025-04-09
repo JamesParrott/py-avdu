@@ -12,5 +12,5 @@ authors = [{name='Sammy-T', email='cyam9019@gmail.com'}, {name = 'Claude 3.7 Son
 maintainers = [{name = "James Parrott", email = "james@jamesparrott.dev"}]
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["cryptography"]
+dependencies = ["cryptography", "pydantic"]
 

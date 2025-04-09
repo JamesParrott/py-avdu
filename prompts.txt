@@ -1,0 +1,9 @@
+1) Port the following code to Python:
+
+( dump of https://raw.githubusercontent.com/Sammy-T/avdu/ab57ed96cccdedd3b88b54f72215ea1b9f0fa50b/vault/decrypt.go)
+
+2) Please refactor the classes Header, Slot, Params and KeyParams to be Pydantic BaseModels
+
+3) That's great, thanks.  Please refactor the names of all class variables from Camel Case to snake_case.
+
+4) Remove the Field with aliases
