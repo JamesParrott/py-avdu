@@ -22,4 +22,17 @@ Claude:
 
 ChatGPT (I hit Claude's free limit)
 
-9)
+9) Please port this Go Code to Python 3 using snake case and type annotations:
+(https://github.com/Sammy-T/avdu/blob/ab57ed96cccdedd3b88b54f72215ea1b9f0fa50b/otp/totp.go#L36 onwards)
+
+10) Port this Go function to Python please:
+(String() from https://github.com/Sammy-T/avdu/blob/ab57ed96cccdedd3b88b54f72215ea1b9f0fa50b/otp/totp.go#L26 )
+
+Failure!
+
+Incorrect TOTP codes were being generated, so I then deleted the code from the LLMs from Steps 8-10,
+and used pyotp and the basic example from its docs instead.
+https://pyauth.github.io/pyotp/#quick-overview-of-using-one-time-passwords-on-your-phone.
+
+Success!
+

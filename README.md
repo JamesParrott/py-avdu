@@ -1,8 +1,12 @@
 # Py-avdu
 
-An unofficial port of [Sammy-T](https://github.com/Sammy-T)'s [avdu](https://github.com/Sammy-T/avdu), re-written in Python by [Claude]() (and the hundreds of thousands of coders whose work it was trained on), main function added, and packaged for PyPI by [James Parrott](https://github.com/JamesParrott).  
+An unofficial incomplete port of [Sammy-T](https://github.com/Sammy-T)'s [avdu](https://github.com/Sammy-T/avdu), re-written in Python by [Claude]() (and the hundreds of thousands of coders whose work it was trained on), main function added, and packaged for PyPI by [James Parrott](https://github.com/JamesParrott).  
 
 I use this myself, simply for peace of mind before factory resetting my phone, by exporting my encrypted vault from [Aegis](https://getaegis.app/), simply as a check to make sure I can generate TOTP codes without a phone, to access all my accounts in case of a problem reinstalling Aegis.  
+
+Before deleting any credentials or factory resetting any devices, please verify that you really 
+can generate the same correct codes from your backup vault, as from the original authenticator app
+the backup was taken from.
 
 
 ## Overview
@@ -22,6 +26,10 @@ If you do discover a bug, please raise an [issue](https://github.com/JamesParrot
 and I'll do my best to fix it.  If a bug that's a major security 
 concern can't be fixed or worked around, then ultimately I will sunset 
 this project.
+
+The port of Avdu is incomplete.  Claude's code to decrypt my vault worked great.  Unfortunately
+ ChatGPT's port of the TOTP generator produced incorrect TOTP codes.  Luckily
+there is a trustworthy library from PyAuth (PyOTP) to use instead which does exactly this purpose.
 
 ## Alternatives
 
