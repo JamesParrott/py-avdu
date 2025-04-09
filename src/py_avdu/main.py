@@ -7,7 +7,7 @@ import pyotp
 
 from py_avdu.encrypted_classes import KeyParams, Params, Header, Slot, VaultEncrypted
 from py_avdu.decrypted_classes import Db
-
+from py_avdu.totp import generate_totp
 
 def main(args = sys.argv[1:]):
     vault_path, pwd = args
@@ -33,10 +33,15 @@ def main(args = sys.argv[1:]):
 
     for entry in db_plain.entries:
         info = entry.info
-        totp = pyotp.TOTP(info.secret)
-        print(f'{entry.issuer}, {entry.name}: {totp.now()} ')
+        # totp = pyotp.TOTP(info.secret)
+        # print(f'{entry.issuer}, {entry.name}: {totp.now()} ')
+
+        totp, err = generate_totp(info.secret.encode(), info.algo, info.digits, info.period)
+        print(f'{entry.issuer}, {entry.name}: {totp} ')
 
     del entry, info, db_plain, totp
+
+    raise Exception("These codes are incorrect, do not rely on this branch, it is for posterity only")
 
 
 
