@@ -1,3 +1,5 @@
+Claude:
+
 1) Port the following code to Python:
 
 ( dump of https://raw.githubusercontent.com/Sammy-T/avdu/ab57ed96cccdedd3b88b54f72215ea1b9f0fa50b/vault/decrypt.go)
@@ -15,3 +17,9 @@
 7) Please port these Go structs to Python Pydantic BaseModels, to represent the decrypted vault, changing the case of the field names to snake_case:
 
 (dump of ~35 lines to Group from https://github.com/Sammy-T/avdu/blob/4f3e45aa89216fb4ae4bc468247e62cbd508fceb/vault/vault.go#L44)
+
+8) Port this to Python: (getHash and imports from https://github.com/Sammy-T/avdu/blob/ab57ed96cccdedd3b88b54f72215ea1b9f0fa50b/otp/otp.go)
+
+ChatGPT (I hit Claude's free limit)
+
+9)

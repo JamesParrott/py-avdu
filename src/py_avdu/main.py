@@ -5,6 +5,7 @@ import pprint
 
 from py_avdu.encrypted_classes import KeyParams, Params, Header, Slot, VaultEncrypted
 from py_avdu.decrypted_classes import Db
+from py_avdu.totp import generate_totp_code
 
 def main(args = sys.argv[1:]):
     vault_path, pwd = args
@@ -27,9 +28,12 @@ def main(args = sys.argv[1:]):
 
     del decrypted
 
-    pprint.pprint(db_plain)
+    for entry in db_plain.entries:
+        info = entry.info
+        totp_code =  generate_totp_code(info.secret.encode(), info.algo, info.period)
+        print(f'{entry.issuer}, {entry.name}, {totp_code} ')
 
-    del db_plain
+    del entry, info, db_plain
 
 
 
