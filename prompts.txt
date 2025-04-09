@@ -10,4 +10,8 @@
 
 5) Replace List with list, and add type annotactions <sic> to the methods on VaultEncrypted 
 
-6) Don't import list from typing.  It's a built-in
+6) Don't import list from typing.  It's a built-in.
+
+7) Please port these Go structs to Python Pydantic BaseModels, to represent the decrypted vault, changing the case of the field names to snake_case:
+
+(dump of ~35 lines to Group from https://github.com/Sammy-T/avdu/blob/4f3e45aa89216fb4ae4bc468247e62cbd508fceb/vault/vault.go#L44)

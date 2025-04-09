@@ -3,7 +3,8 @@ import pathlib
 import json
 import pprint
 
-from .classes import KeyParams, Params, Header, Slot, VaultEncrypted
+from py_avdu.encrypted_classes import KeyParams, Params, Header, Slot, VaultEncrypted
+from py_avdu.decrypted_classes import Db
 
 def main(args = sys.argv[1:]):
     vault_path, pwd = args
@@ -22,7 +23,14 @@ def main(args = sys.argv[1:]):
 
     pprint.pprint(decrypted.db)
 
+    db_plain = Db(**decrypted.db)
+
     del decrypted
+
+    pprint.pprint(db_plain)
+
+    del db_plain
+
 
 
 if __name__ == '__main__':
