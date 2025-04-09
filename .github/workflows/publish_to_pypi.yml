@@ -1,0 +1,41 @@
+name: Build and Publish to PyPI with uv
+
+on: 
+  workflow_dispatch:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+
+
+
+jobs:
+  build_and_publish_to_pypi:
+    name: Upload release to PyPI
+    runs-on: ubuntu-latest
+
+    environment:
+      # Publish_to_PyPI has a branch protection rule, limiting use
+      # of it to the main branch only 
+      name: Publish_to_PyPI
+    permissions:
+      id-token: write
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+            enable-cache: false
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish to PyPI
+        run: uv publish
