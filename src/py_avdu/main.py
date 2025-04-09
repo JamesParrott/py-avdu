@@ -3,12 +3,17 @@ import pathlib
 import json
 import pprint
 
+import pyotp
+
 from py_avdu.encrypted_classes import KeyParams, Params, Header, Slot, VaultEncrypted
 from py_avdu.decrypted_classes import Db
-from py_avdu.totp import generate_totp_code
+
 
 def main(args = sys.argv[1:]):
     vault_path, pwd = args
+
+    sys.argv.clear()
+    args.clear()
 
     vault_dict = json.loads(pathlib.Path(vault_path).read_text())
 
@@ -22,18 +27,16 @@ def main(args = sys.argv[1:]):
 
     del master_key
 
-    pprint.pprint(decrypted.db)
-
     db_plain = Db(**decrypted.db)
 
     del decrypted
 
     for entry in db_plain.entries:
         info = entry.info
-        totp_code =  generate_totp_code(info.secret.encode(), info.algo, info.period)
-        print(f'{entry.issuer}, {entry.name}, {totp_code} ')
+        totp = pyotp.TOTP(info.secret)
+        print(f'{entry.issuer}, {entry.name}: {totp.now()} ')
 
-    del entry, info, db_plain
+    del entry, info, db_plain, totp
 
 
 

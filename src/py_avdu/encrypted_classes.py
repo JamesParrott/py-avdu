@@ -32,6 +32,12 @@ class Header(BaseModel):
     slots: list[Slot]
     params: Params
 
+    
+class Vault(BaseModel):
+    version: int
+    header: Header
+    db: Any  # This will be the parsed JSON content
+
 
 class VaultEncrypted(BaseModel):
     version: int
@@ -125,7 +131,7 @@ class VaultEncrypted(BaseModel):
         except Exception as e:
             raise e
     
-    def decrypt_vault(self, master_key: bytes) -> "Vault":
+    def decrypt_vault(self, master_key: bytes) -> Vault:
         """
         Decrypts the vault's contents and returns a plaintext version of the vault.
         
@@ -152,8 +158,3 @@ class VaultEncrypted(BaseModel):
         
         return vault_data_plain
 
-
-class Vault(BaseModel):
-    version: int
-    header: Header
-    db: Any  # This will be the parsed JSON content
