@@ -7,3 +7,7 @@
 3) That's great, thanks.  Please refactor the names of all class variables from Camel Case to snake_case.
 
 4) Remove the Field with aliases
+
+5) Replace List with list, and add type annotactions <sic> to the methods on VaultEncrypted 
+
+6) Don't import list from typing.  It's a built-in

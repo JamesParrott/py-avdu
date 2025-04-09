@@ -1,7 +1,7 @@
 import base64
 import json
 from binascii import hexlify, unhexlify
-from typing import List, Any
+from typing import Any
 from pydantic import BaseModel
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
@@ -29,7 +29,7 @@ class Slot(BaseModel):
 
 
 class Header(BaseModel):
-    slots: List[Slot]
+    slots: list[Slot]
     params: Params
 
 
@@ -38,9 +38,18 @@ class VaultEncrypted(BaseModel):
     header: Header
     db: str
     
-    def find_master_key(self, pwd):
+    def find_master_key(self, pwd: str) -> bytes:
         """
         Uses the password to decrypt the master key from the vault and returns the master key's bytes.
+        
+        Args:
+            pwd: The password to use for decryption
+            
+        Returns:
+            The decrypted master key as bytes
+            
+        Raises:
+            ValueError: If no master key is found
         """
         key = None
         master_key = None
@@ -85,9 +94,18 @@ class VaultEncrypted(BaseModel):
             
         return master_key
     
-    def decrypt_contents(self, master_key):
+    def decrypt_contents(self, master_key: bytes) -> bytes:
         """
         Uses the master key to decrypt the vault's contents and returns the content's bytes.
+        
+        Args:
+            master_key: The master key as bytes
+            
+        Returns:
+            The decrypted contents as bytes
+            
+        Raises:
+            Exception: If decryption fails
         """
         db_str = self.db
         params = self.header.params
@@ -107,9 +125,18 @@ class VaultEncrypted(BaseModel):
         except Exception as e:
             raise e
     
-    def decrypt_vault(self, master_key):
+    def decrypt_vault(self, master_key: bytes) -> "Vault":
         """
         Decrypts the vault's contents and returns a plaintext version of the vault.
+        
+        Args:
+            master_key: The master key as bytes
+            
+        Returns:
+            A Vault instance with decrypted content
+            
+        Raises:
+            Exception: If decryption or JSON parsing fails
         """
         content = self.decrypt_contents(master_key)
         
