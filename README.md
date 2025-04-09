@@ -1,11 +1,11 @@
 # Py-avdu
 
-An unofficial incomplete port of [Sammy-T](https://github.com/Sammy-T)'s [avdu](https://github.com/Sammy-T/avdu), re-written in Python by [Claude]() (and the hundreds of thousands of coders whose work it was trained on), main function added, and packaged for PyPI by [James Parrott](https://github.com/JamesParrott).  
+An unofficial incomplete port of [Sammy-T](https://github.com/Sammy-T)'s [avdu](https://github.com/Sammy-T/avdu).  It was re-written in Python by [Claude](https://claude.ai/) (and the hundreds of thousands of coders whose work it was trained on), The main function was added and it was packaged for PyPI by [James Parrott](https://github.com/JamesParrott) (who should be held responsible).  
 
 I use this myself, simply for peace of mind before factory resetting my phone, by exporting my encrypted vault from [Aegis](https://getaegis.app/), simply as a check to make sure I can generate TOTP codes without a phone, to access all my accounts in case of a problem reinstalling Aegis.  
 
 Before deleting any credentials or factory resetting any devices, please verify that you really 
-can generate the same correct codes from your backup vault, as from the original authenticator app
+can generate the same correct codes from your own backup vault, as from the original authenticator app
 the backup was taken from.
 
 
