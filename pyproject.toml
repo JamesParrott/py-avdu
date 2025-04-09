@@ -13,4 +13,5 @@ maintainers = [{name = "James Parrott", email = "james@jamesparrott.dev"}]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = ["cryptography", "pydantic"]
-
+[project.optional-dependencies]
+types = ["types-cryptography"]
