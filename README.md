@@ -14,9 +14,9 @@ the backup was taken from.
 What's worse than rolling your own Crypto?  
 Rolling your own Crypto with an LLM.
 
-This is a little better than both of those for two reasons:
+Py-Avdu is a little bit better than both of those cases for two reasons:
 - Instead of rolling my crypto own completely from scratch I gave Claude, Sammy-T's avdu, and asked it to port it.
-- This decrypts encrypted vaults only.  Encryption of the vaults in the first place should be done by [Aegis](https://getaegis.app/).
+- This decrypts encrypted vaults only.  Encryption of the vaults in the first place should be done by [Aegis](https://getaegis.app/).  Py-avdu should only be used locally.
 
 Aegis is a fantastic app.  But its developers currently have [no intention](https://github.com/beemdevelopment/Aegis/issues/165#issuecomment-514096978) to support any other platform than Android.
 
@@ -27,8 +27,13 @@ and I'll do my best to fix it.  If a bug that's a major security
 concern can't be fixed or worked around, then ultimately I will sunset 
 this project.
 
-The port of Avdu is incomplete.  Claude's code to decrypt my vault worked great.  Unfortunately
- ChatGPT's port of the TOTP generator produced incorrect TOTP codes.  Luckily
+Py-Avdu does generate TOTP codes correctly from a password-encrypted Aegis backup vault (from my own one at least).  
+However at the time of writing, no further functionality is implemented - Py-Avdu is definitely an incomplete port of Avdu.  
+
+
+## Beware ye, would be Vibe Coders.
+Claude's code to decrypt my vault worked great.  Unfortunately
+ ChatGPT's port of Avdu's TOTP generator produced incorrect TOTP codes.  Luckily
 there is a trustworthy library from PyAuth (PyOTP) to use instead which does exactly this purpose.
 
 ## Alternatives
